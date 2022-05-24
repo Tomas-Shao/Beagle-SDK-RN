@@ -6,9 +6,10 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, {useState} from 'react';
 import type {Node} from 'react';
 import {
+    Button,
     SafeAreaView,
     ScrollView,
     StatusBar,
@@ -25,7 +26,7 @@ import {
     LearnMoreLinks,
     ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-import NewButton from './components/NewButton';
+import Web3 from 'web3';
 
 const Section = ({children, title}): Node => {
     const isDarkMode = useColorScheme() === 'dark';
@@ -49,10 +50,39 @@ const Section = ({children, title}): Node => {
 
 const App: () => Node = () => {
     const isDarkMode = useColorScheme() === 'dark';
+    const [message, setMessage] = useState("Loading")
 
     const backgroundStyle = {
         backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
     };
+
+    function clickConnect() {
+        console.log("loading button")
+        setMessage("Connecting")
+    }
+
+    async function fetchAccount() {
+        const web3 = new Web3(
+            new Web3.providers.HttpProvider('https://rinkeby.infura.io/v3/84ae00fec54f4d65bd1c0505b0e96383'),
+        );
+        console.log('WEB3 ============================');
+        web3.eth.getBlock('latest').then(function (value) {
+            console.log(value);
+        }).catch(error => console.log(error));
+        console.log('WEB3 ============================');
+
+        const accounts = await web3.eth.getAccounts();
+        console.log(accounts)
+        console.log('WEB4 ============================');
+    }
+
+    React.useEffect(() => {
+        console.log("use effect")
+        fetchAccount().then(r => console.log(r))
+        return () => {
+            console.log("clean up for use effect")
+        }
+    })
 
     return (
         <SafeAreaView style={backgroundStyle}>
@@ -61,6 +91,9 @@ const App: () => Node = () => {
                 contentInsetAdjustmentBehavior="automatic"
                 style={backgroundStyle}>
                 <Header/>
+                <Button title={message} onPress={clickConnect}>
+
+                </Button>
                 <View
                     style={{
                         backgroundColor: isDarkMode ? Colors.black : Colors.white,
@@ -79,7 +112,6 @@ const App: () => Node = () => {
                         Read the docs to discover what to do next:
                     </Section>
                     <LearnMoreLinks/>
-                    <NewButton></NewButton>
                 </View>
             </ScrollView>
         </SafeAreaView>
