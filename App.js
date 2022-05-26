@@ -58,31 +58,39 @@ const App: () => Node = () => {
 
     function clickConnect() {
         console.log("loading button")
-        setMessage("Connecting")
+        // setMessage("Connecting")
+        fetchAccount().then(r => console.log('then'))
     }
 
     async function fetchAccount() {
         const web3 = new Web3(
             new Web3.providers.HttpProvider('https://rinkeby.infura.io/v3/84ae00fec54f4d65bd1c0505b0e96383'),
         );
-        console.log('WEB3 ============================');
+        console.log('fetchAccount begin ============================');
         web3.eth.getBlock('latest').then(function (value) {
+            console.log('===================1=================')
             console.log(value);
+            console.log('===================2=================')
+            console.debug("value: ", value.transactions)
+            console.log('===================3=================')
         }).catch(error => console.log(error));
-        console.log('WEB3 ============================');
-
-        const accounts = await web3.eth.getAccounts();
-        console.log(accounts)
-        console.log('WEB4 ============================');
+        console.log('fetchAccount done ============================');
+        // const accounts = await web3.eth.getAccounts();
+        // console.log(accounts)
+        // console.log('WEB4 ============================');
     }
 
-    React.useEffect(() => {
-        console.log("use effect")
-        fetchAccount().then(r => console.log(r))
-        return () => {
-            console.log("clean up for use effect")
-        }
-    })
+    // React.useEffect(() => {
+    //     console.log("use effect")
+    //     fetchAccount().then(r => {
+    //         // console.log('result in useEffect:')
+    //         // console.log(r)
+    //         console.log('done')
+    //     })
+    //     return () => {
+    //         console.log("clean up for use effect")
+    //     }
+    // })
 
     return (
         <SafeAreaView style={backgroundStyle}>
