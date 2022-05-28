@@ -14,6 +14,7 @@ function HomePage({navigation}) {
     // })
 
     const [chainId, setChainId] = useState('null');
+    const [owner, setOwner] = useState('')
 
     function getChainId() {
         const web3 = new Web3(new Web3.providers.HttpProvider('https://rinkeby.infura.io/v3/84ae00fec54f4d65bd1c0505b0e96383'));
@@ -238,6 +239,7 @@ function HomePage({navigation}) {
         console.log(contract.methods)
         contract.methods.owner('0x91d1777781884d03a6757a803996e38de2a42967fb37eeaca72729271025a9e2').call().then((value) => {
             console.log("Get Owner:", value)
+            setOwner(value)
         })
     }
 
@@ -250,7 +252,8 @@ function HomePage({navigation}) {
             <Button title="getLatestBlock" onPress={getLatestBlock}></Button>
             <Button title="Get chainID" onPress={getChainId}></Button>
             <Text>{chainId}</Text>
-            <Button title="Fetch owner" onPress={fetchOwner}></Button>
+            <Button title="Fetch owner: addr.reverse" onPress={fetchOwner}></Button>
+            <Text>{owner}</Text>
         </View>
     );
 }
