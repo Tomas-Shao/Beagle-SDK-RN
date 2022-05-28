@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button, Text, useColorScheme, View, StyleSheet} from 'react-native';
+import {Button, Text, useColorScheme, View, StyleSheet, SafeAreaView} from 'react-native';
 import Web3 from 'web3';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
@@ -248,28 +248,22 @@ function HomePage({navigation}) {
     }
 
     return (
-        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-            <Text>
-                Detail Screen
-            </Text>
-            <Button title="Go to Detail page" onPress={() => navigation.navigate('Detail')}></Button>
-            <Button title="getLatestBlock" onPress={getLatestBlock}></Button>
-            <Section title="Get ChainId">
-                Click <Button title="HERE" onPress={getChainId}></Button> to fetch chain id <Text style={styles.highlight}>{chainId}</Text>
-            </Section>
-            <Section title="Fetch Owner: addr.reverse">
-                Click <Button title="HERE" onPress={fetchOwner}></Button> to fetch owner <Text style={styles.highlight}>{owner}</Text>
-            </Section>
-        </View>
+        <SafeAreaView>
+            <View>
+                <Button title="Go to Detail page" onPress={() => navigation.navigate('Detail')}></Button>
+                <Button title="getLatestBlock" onPress={getLatestBlock}></Button>
+                <Section title="Get ChainId">
+                    Click <Button title="HERE" onPress={getChainId}></Button> to fetch chain id <Text style={styles.highlight}>{chainId}</Text>
+                </Section>
+                <Section title="Fetch Owner: addr.reverse">
+                    Click <Button title="HERE" onPress={fetchOwner}></Button> to fetch owner <Text style={styles.highlight}>{owner}</Text>
+                </Section>
+            </View>
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
-    sectionContainer: {
-        marginTop: 32,
-        paddingHorizontal: 24,
-        alignSelf: 'flex-start',
-    },
     sectionTitle: {
         fontSize: 24,
         fontWeight: '600',
@@ -282,12 +276,20 @@ const styles = StyleSheet.create({
     highlight: {
         fontWeight: '700',
     },
+    row: {
+        padding: 14,
+        margin: 10,
+        borderBottomWidth: StyleSheet.hairlineWidth,
+        borderTopWidth: StyleSheet.hairlineWidth,
+        borderRightWidth: StyleSheet.hairlineWidth,
+        borderLeftWidth: StyleSheet.hairlineWidth
+    }
 });
 
 const Section = ({children, title}): Node => {
     const isDarkMode = useColorScheme() === 'dark';
     return (
-        <View style={styles.sectionContainer}>
+        <View style={[styles.row]}>
             <Text style={[styles.sectionTitle, {color: isDarkMode ? Colors.white : Colors.black}]}>
                 {title}
             </Text>
