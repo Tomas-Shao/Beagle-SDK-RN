@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button, Text, useColorScheme, View, StyleSheet, SafeAreaView, TextInput} from 'react-native';
+import {Button, Text, useColorScheme, View, StyleSheet, SafeAreaView, TextInput, Keyboard} from 'react-native';
 import Web3 from 'web3';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
@@ -16,10 +16,13 @@ function HomePage({navigation}) {
         web3.eth.getChainId().then((value) => {
             console.log('ChainID:', value);
             setChainId(value);
+        }).catch((error) => {
+            console.error(error)
         });
     }
 
     function fetchOwner() {
+        Keyboard.dismiss()
         const web3 = new Web3(new Web3.providers.HttpProvider('https://rinkeby.infura.io/v3/84ae00fec54f4d65bd1c0505b0e96383'));
         let contract = new web3.eth.Contract([
             {
@@ -232,6 +235,8 @@ function HomePage({navigation}) {
         contract.methods.owner(NameHash.hash(value)).call().then((value) => {
             console.log('Get Owner:', value);
             setOwner(value);
+        }).catch ((error) => {
+            console.error(error)
         });
     }
 
