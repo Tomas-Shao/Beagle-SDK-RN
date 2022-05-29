@@ -1,11 +1,14 @@
 import React, {useState} from 'react';
-import {Button, Text, useColorScheme, View, StyleSheet, SafeAreaView} from 'react-native';
+import {Button, Text, useColorScheme, View, StyleSheet, SafeAreaView, TextInput} from 'react-native';
 import Web3 from 'web3';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+
+const NameHash = require('eth-ens-namehash');
 
 function HomePage({navigation}) {
     const [chainId, setChainId] = useState('null');
     const [owner, setOwner] = useState('');
+    const [value, onChangeText] = React.useState('');
 
     function getChainId() {
         const web3 = new Web3(new Web3.providers.HttpProvider('https://rinkeby.infura.io/v3/84ae00fec54f4d65bd1c0505b0e96383'));
@@ -226,9 +229,7 @@ function HomePage({navigation}) {
                 'type': 'function',
             },
         ], '0x98325eDBE53119bB4A5ab7Aa35AA4621f49641E6');
-
-        console.log(contract.methods);
-        contract.methods.owner('0x91d1777781884d03a6757a803996e38de2a42967fb37eeaca72729271025a9e2').call().then((value) => {
+        contract.methods.owner(NameHash.hash(value)).call().then((value) => {
             console.log('Get Owner:', value);
             setOwner(value);
         });
@@ -253,11 +254,30 @@ function HomePage({navigation}) {
                 <Button title="Go to Detail page" onPress={() => navigation.navigate('Detail')}></Button>
                 <Button title="getLatestBlock" onPress={getLatestBlock}></Button>
                 <Section title="Get ChainId">
-                    Click <Button title="HERE" onPress={getChainId}></Button> to fetch chain id <Text style={styles.highlight}>{chainId}</Text>
+                    Click <Button title="HERE" onPress={getChainId}></Button> to fetch chain id <Text
+                    style={styles.highlight}>{chainId}</Text>
                 </Section>
-                <Section title="Fetch Owner: addr.reverse">
-                    Click <Button title="HERE" onPress={fetchOwner}></Button> to fetch owner <Text style={styles.highlight}>{owner}</Text>
-                </Section>
+
+                <View style={[styles.row]}>
+                    <Text style={[styles.sectionTitle, Colors.black]}>
+                        Fetch Owner:
+                    </Text>
+                    <View style={{flexDirection: 'row'}}>
+                        <Button title="查询" onPress={fetchOwner}></Button>
+                        <TextInput style={{
+                            backgroundColor: 'white',
+                            borderBottomWidth: StyleSheet.hairlineWidth,
+                            padding: 6,
+                            borderRadius: 4,
+                        }}
+                                   placeholder="Input subdomain Placeholder" value={value}
+                                   onChangeText={text => onChangeText(text)}>
+                        </TextInput>
+                    </View>
+                    <Text style={[styles.sectionDescription, Colors.dark]}>
+                        结果: {owner}
+                    </Text>
+                </View>
             </View>
         </SafeAreaView>
     );
@@ -282,8 +302,8 @@ const styles = StyleSheet.create({
         borderBottomWidth: StyleSheet.hairlineWidth,
         borderTopWidth: StyleSheet.hairlineWidth,
         borderRightWidth: StyleSheet.hairlineWidth,
-        borderLeftWidth: StyleSheet.hairlineWidth
-    }
+        borderLeftWidth: StyleSheet.hairlineWidth,
+    },
 });
 
 const Section = ({children, title}): Node => {
