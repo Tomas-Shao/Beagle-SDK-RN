@@ -269,6 +269,7 @@ function HomePage({navigation}) {
                             borderBottomWidth: StyleSheet.hairlineWidth,
                             padding: 6,
                             borderRadius: 4,
+                            flex: 1,
                         }}
                                    placeholder="Input subdomain Placeholder" value={value}
                                    onChangeText={text => onChangeText(text)}>
