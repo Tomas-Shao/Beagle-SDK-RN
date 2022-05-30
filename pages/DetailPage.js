@@ -227,17 +227,11 @@ function DetailsScreen({navigation}) {
         });
     }
 
-    return (
-        <View style={{padding: 10}}>
-            <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-                <TextInput style={{borderBottomWidth: StyleSheet.hairlineWidth, flex: 2, height: 40}}
-                           placeholder="请输入您的ENS名字" value={ens} onChangeText={(text) => setEns(text)}>
-                </TextInput>
-                <View style={{borderRightWidth: StyleSheet.hairlineWidth, height: 20}}></View>
-                <Text style={{padding: 4, flex: 1}}> .beagles.eth</Text>
-            </View>
-            <Button title={'查询'} color="green" onPress={fetchOwner2}></Button>
-            <View style={{borderBottomWidth: StyleSheet.hairlineWidth, paddingTop: 10}}></View>
+    function walletWidget() {
+        if (owner === '') {
+            return null
+        }
+        return (
             <View style={{paddingTop: 10}}>
                 <Text style={{fontSize: 20, paddingBottom: 10, fontWeight: 'bold'}}>
                     钱包地址:
@@ -246,8 +240,33 @@ function DetailsScreen({navigation}) {
                     {owner}
                 </Text>
             </View>
+        )
+    }
+
+    return (
+        <View style={{padding: 10}}>
+            <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingBottom: 20}}>
+                <TextInput style={{borderBottomWidth: StyleSheet.hairlineWidth, flex: 2, height: 40}}
+                           placeholder="请输入您的ENS名字" value={ens} onChangeText={(text) => setEns(text)}>
+                </TextInput>
+                <View style={{borderRightWidth: StyleSheet.hairlineWidth, height: 20}}></View>
+                <Text style={{padding: 4, flex: 1}}> .beagles.eth</Text>
+            </View>
+            <View style={[styles.button]}>
+                <Button title={'查询'} color="green" onPress={fetchOwner2}></Button>
+            </View>
+            <View style={{borderBottomWidth: StyleSheet.hairlineWidth, paddingTop: 20}}></View>
+            {walletWidget()}
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+
+   button: {
+       backgroundColor: 'pink',
+       borderRadius: 4,
+   }
+});
 
 export default DetailsScreen;
