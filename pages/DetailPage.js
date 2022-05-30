@@ -229,7 +229,7 @@ function DetailsScreen({navigation}) {
 
     function walletWidget() {
         if (owner === '') {
-            return null
+            return null;
         }
         return (
             <View style={{paddingTop: 10}}>
@@ -240,7 +240,7 @@ function DetailsScreen({navigation}) {
                     {owner}
                 </Text>
             </View>
-        )
+        );
     }
 
     return (
@@ -257,16 +257,17 @@ function DetailsScreen({navigation}) {
             </View>
             <View style={{borderBottomWidth: StyleSheet.hairlineWidth, paddingTop: 20}}></View>
             {walletWidget()}
+            <Button title="Go to Counter" onPress={() => navigation.navigate('Counter')}></Button>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
 
-   button: {
-       backgroundColor: 'pink',
-       borderRadius: 4,
-   }
+    button: {
+        backgroundColor: 'pink',
+        borderRadius: 4,
+    },
 });
 
 export default DetailsScreen;
