@@ -11,11 +11,11 @@ import type {Node} from 'react';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import HomePage from './pages/HomePage';
-import DetailsScreen from './pages/DetailPage';
-import {CounterPage} from './pages/CounterPage';
+import HomePage from './src/pages/HomePage';
+import DetailsScreen from './src/pages/DetailPage';
+import {CounterPage} from './src/pages/CounterPage';
 import {Provider} from 'react-redux';
-import store from './app/store'
+import store from './src/store/store'
 
 const Stack = createNativeStackNavigator();
 
