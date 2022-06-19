@@ -75,3 +75,4 @@ package-lock.json
 
 # Yarn Integrity file
 .yarn-integrity
+/ios/Pods/
