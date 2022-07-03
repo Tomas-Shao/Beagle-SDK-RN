@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import {Button, Text, useColorScheme, View, StyleSheet, SafeAreaView, TextInput, Keyboard} from 'react-native';
 import Web3 from 'web3';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import * as PublicResolver from '.././resources/JSON/PublicResolver.json'
+import * as ReverseRegistrar from '.././resources/JSON/ReverseRegistrar.json'
 
 const NameHash = require('eth-ens-namehash');
 
@@ -9,6 +11,7 @@ function HomePage({navigation}) {
     const [chainId, setChainId] = useState('null');
     const [owner, setOwner] = useState('');
     const [value, onChangeText] = React.useState('');
+    const [record, setRecord] = useState('null')
 
     function getChainId() {
         const web3 = new Web3(new Web3.providers.HttpProvider('https://rinkeby.infura.io/v3/84ae00fec54f4d65bd1c0505b0e96383'));
@@ -24,217 +27,21 @@ function HomePage({navigation}) {
     function fetchOwner() {
         Keyboard.dismiss()
         const web3 = new Web3(new Web3.providers.HttpProvider('https://rinkeby.infura.io/v3/84ae00fec54f4d65bd1c0505b0e96383'));
-        let contract = new web3.eth.Contract([
-            {
-                'anonymous': false,
-                'inputs': [
-                    {
-                        'indexed': true,
-                        'name': 'node',
-                        'type': 'bytes32',
-                    },
-                    {
-                        'indexed': true,
-                        'name': 'label',
-                        'type': 'bytes32',
-                    },
-                    {
-                        'indexed': false,
-                        'name': 'owner',
-                        'type': 'address',
-                    },
-                ],
-                'name': 'NewOwner',
-                'type': 'event',
-            },
-            {
-                'anonymous': false,
-                'inputs': [
-                    {
-                        'indexed': true,
-                        'name': 'node',
-                        'type': 'bytes32',
-                    },
-                    {
-                        'indexed': false,
-                        'name': 'owner',
-                        'type': 'address',
-                    },
-                ],
-                'name': 'Transfer',
-                'type': 'event',
-            },
-            {
-                'anonymous': false,
-                'inputs': [
-                    {
-                        'indexed': true,
-                        'name': 'node',
-                        'type': 'bytes32',
-                    },
-                    {
-                        'indexed': false,
-                        'name': 'resolver',
-                        'type': 'address',
-                    },
-                ],
-                'name': 'NewResolver',
-                'type': 'event',
-            },
-            {
-                'anonymous': false,
-                'inputs': [
-                    {
-                        'indexed': true,
-                        'name': 'node',
-                        'type': 'bytes32',
-                    },
-                    {
-                        'indexed': false,
-                        'name': 'ttl',
-                        'type': 'uint64',
-                    },
-                ],
-                'name': 'NewTTL',
-                'type': 'event',
-            },
-            {
-                'constant': false,
-                'inputs': [
-                    {
-                        'name': 'node',
-                        'type': 'bytes32',
-                    },
-                    {
-                        'name': 'label',
-                        'type': 'bytes32',
-                    },
-                    {
-                        'name': 'owner',
-                        'type': 'address',
-                    },
-                ],
-                'name': 'setSubnodeOwner',
-                'outputs': [],
-                'payable': false,
-                'stateMutability': 'nonpayable',
-                'type': 'function',
-            },
-            {
-                'constant': false,
-                'inputs': [
-                    {
-                        'name': 'node',
-                        'type': 'bytes32',
-                    },
-                    {
-                        'name': 'resolver',
-                        'type': 'address',
-                    },
-                ],
-                'name': 'setResolver',
-                'outputs': [],
-                'payable': false,
-                'stateMutability': 'nonpayable',
-                'type': 'function',
-            },
-            {
-                'constant': false,
-                'inputs': [
-                    {
-                        'name': 'node',
-                        'type': 'bytes32',
-                    },
-                    {
-                        'name': 'owner',
-                        'type': 'address',
-                    },
-                ],
-                'name': 'setOwner',
-                'outputs': [],
-                'payable': false,
-                'stateMutability': 'nonpayable',
-                'type': 'function',
-            },
-            {
-                'constant': false,
-                'inputs': [
-                    {
-                        'name': 'node',
-                        'type': 'bytes32',
-                    },
-                    {
-                        'name': 'ttl',
-                        'type': 'uint64',
-                    },
-                ],
-                'name': 'setTTL',
-                'outputs': [],
-                'payable': false,
-                'stateMutability': 'nonpayable',
-                'type': 'function',
-            },
-            {
-                'constant': true,
-                'inputs': [
-                    {
-                        'name': 'node',
-                        'type': 'bytes32',
-                    },
-                ],
-                'name': 'owner',
-                'outputs': [
-                    {
-                        'name': '',
-                        'type': 'address',
-                    },
-                ],
-                'payable': false,
-                'stateMutability': 'view',
-                'type': 'function',
-            },
-            {
-                'constant': true,
-                'inputs': [
-                    {
-                        'name': 'node',
-                        'type': 'bytes32',
-                    },
-                ],
-                'name': 'resolver',
-                'outputs': [
-                    {
-                        'name': '',
-                        'type': 'address',
-                    },
-                ],
-                'payable': false,
-                'stateMutability': 'view',
-                'type': 'function',
-            },
-            {
-                'constant': true,
-                'inputs': [
-                    {
-                        'name': 'node',
-                        'type': 'bytes32',
-                    },
-                ],
-                'name': 'ttl',
-                'outputs': [
-                    {
-                        'name': '',
-                        'type': 'uint64',
-                    },
-                ],
-                'payable': false,
-                'stateMutability': 'view',
-                'type': 'function',
-            },
-        ], '0x98325eDBE53119bB4A5ab7Aa35AA4621f49641E6');
+        let contract = new web3.eth.Contract(ReverseRegistrar.abi, '0x98325eDBE53119bB4A5ab7Aa35AA4621f49641E6');
         contract.methods.owner(NameHash.hash(value)).call().then((value) => {
             console.log('Get Owner:', value);
             setOwner(value);
+        }).catch ((error) => {
+            console.error(error)
+        });
+    }
+
+    function fetchTextRecords() {
+        const web3 = new Web3(new Web3.providers.HttpProvider("https://rinkeby.infura.io/v3/84ae00fec54f4d65bd1c0505b0e96383"));
+        let contract = new web3.eth.Contract(PublicResolver.abi, '0xf6305c19e814d2a75429Fd637d01F7ee0E77d615');
+        contract.methods.text(NameHash.hash('111.beagle.eth'), 'carrierId').call().then((value) => {
+            console.log('Get TextRecord:', value);
+            setRecord(value)
         }).catch ((error) => {
             console.error(error)
         });
@@ -261,6 +68,11 @@ function HomePage({navigation}) {
                 <Section title="Get ChainId">
                     Click <Button title="HERE" onPress={getChainId}></Button> to fetch chain id <Text
                     style={styles.highlight}>{chainId}</Text>
+                </Section>
+
+                <Section title="Get TextRecord">
+                    Click <Button title="HERE" onPress={fetchTextRecords}></Button> TextRecords <Text
+                    style={styles.highlight}>{record}</Text>
                 </Section>
 
                 <View style={[styles.row]}>
