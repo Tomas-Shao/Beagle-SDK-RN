@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Button, Text, View} from 'react-native';
 import {asyncIncrement, decrement, increment} from '../slices/countSlice';
 
-export function CounterPage() {
+export function CounterPage({navigation}) {
 
     const dispatch = useDispatch();
     const posts = useSelector(state => state.posts);

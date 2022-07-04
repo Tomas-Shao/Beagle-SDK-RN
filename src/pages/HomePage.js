@@ -64,6 +64,7 @@ function HomePage({navigation}) {
         <SafeAreaView>
             <View>
                 <Button title="Go to Detail page" onPress={() => navigation.navigate('Detail')}></Button>
+                <Button title="Go to Wallet page" onPress={() => navigation.navigate('Wallet')}></Button>
                 <Button title="getLatestBlock" onPress={getLatestBlock}></Button>
                 <Section title="Get ChainId">
                     Click <Button title="HERE" onPress={getChainId}></Button> to fetch chain id <Text

@@ -4,7 +4,7 @@ import Web3 from 'web3';
 import NameHash from 'eth-ens-namehash';
 import * as ENS from '.././resources/JSON/ENS.json'
 
-function DetailsScreen({navigation}) {
+function DetailPage({navigation}) {
 
     const [owner, setOwner] = useState('');
     const [ens, setEns] = useState('');
@@ -64,4 +64,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default DetailsScreen;
+export default DetailPage;
