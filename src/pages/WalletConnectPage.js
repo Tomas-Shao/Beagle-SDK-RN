@@ -1,16 +1,10 @@
 import React from 'react';
-import {AsyncStorage, Button, Platform, Text} from 'react-native';
+import {Button, Platform, Text} from 'react-native';
 import WalletConnectProvider, {useWalletConnect} from '@walletconnect/react-native-dapp';
 
 function WalletConnectPage({navigation}) {
 
     const connector = useWalletConnect();
-
-    if (connector.connected) {
-        // connected
-    } else {
-        return <Button title="Connect" onPress={() => connector.connect()}/>;
-    }
 
     return (
         <WalletConnectProvider
@@ -22,14 +16,16 @@ function WalletConnectPage({navigation}) {
                 name: 'WalletConnect',
             }}
             redirectUrl={Platform.OS === 'Web' ? window.location.origin : 'beagle://'}
-            storage={{
-                asyncStorage: AsyncStorage,
-            }}
+            // storage={{
+            //     asyncStorage: AsyncStorage,
+            // }}
             renderQrcodeModal={props => {
                 console.log(props);
                 return Text(props.uri);
             }
             }>
+
+            <Text>"xxx"</Text>
 
         </WalletConnectProvider>
     );
