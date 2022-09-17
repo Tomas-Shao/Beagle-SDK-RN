@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "android": "react-native run-android",
-    "ios": "react-native run-ios",
+    "ios": "react-native run-ios --simulator \"iPhone 14\"",
     "start": "react-native start",
     "test": "jest"
   },
@@ -14,6 +14,8 @@
     "@react-navigation/native": "^6.0.10",
     "@react-navigation/native-stack": "^6.6.2",
     "@reduxjs/toolkit": "^1.8.2",
+    "@walletconnect/client": "^1.8.0",
+    "@walletconnect/qrcode-modal": "^1.8.0",
     "@walletconnect/react-native-dapp": "^1.7.8",
     "eth-ens-namehash": "^2.0.8",
     "node-libs-browser": "^2.2.1",
